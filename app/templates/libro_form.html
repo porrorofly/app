@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+
+<!-- Nota: Recuerda verificar los atributos necesarios para subida de ficheros -->
+<form action="" method="post" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div style="margin-bottom: 12px;">
+        {{ form.titulo.label }}<br>
+        {{ form.titulo(size=40) }}<br>
+        {% for error in form.titulo.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        {{ form.autor.label }}<br>
+        {{ form.autor(size=30) }}<br>
+        {% for error in form.autor.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        {{ form.genero.label }}<br>
+        {{ form.genero(size=30) }}<br>
+        {% for error in form.genero.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        {{ form.precio.label }}<br>
+        {{ form.precio() }}<br>
+        {% for error in form.precio.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 12px;">
+        {{ form.stock.label }}<br>
+        {{ form.stock() }}<br>
+        {% for error in form.stock.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        {{ form.archivo_portada.label }}<br>
+        {% if libro and libro.portada %}
+            <small>Portada actual: {{ libro.portada }}</small><br>
+        {% endif %}
+        {{ form.archivo_portada() }}<br>
+        {% for error in form.archivo_portada.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('public.mostrar_libros') }}" style="margin-left: 10px;">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

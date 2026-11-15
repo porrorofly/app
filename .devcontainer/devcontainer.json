@@ -1,0 +1,34 @@
+{
+  "name": "Entorno Python con uv",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "web",
+  "workspaceFolder": "/app",
+  "overrideCommand": true,
+  "command": "sleep infinity",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Le decimos a VS Code dónde está el Python que instaló uv
+        "python.defaultInterpreterPath": "/app/.venv/bin/python",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "wholroyd.jinja"
+      ]
+    }
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && uv sync",
+  "postStartCommand": "uv run flask --app run:app run --host 0.0.0.0 --port 5000 --debug",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached,readonly"
+  ]
+}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle: {{ libro.titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ libro.titulo }}</h2>
+<p><strong>ID del libro:</strong> {{ libro.id }}</p>
+<p><strong>Autor:</strong> {{ libro.autor }}</p>
+<p><strong>Género:</strong> {{ libro.genero }}</p>
+<p><strong>Precio:</strong> {{ "%.2f"|format(libro.precio) }} €</p>
+<p><strong>Unidades disponibles:</strong> {{ libro.stock }}</p>
+
+{% if libro.portada %}
+    <p><img src="{{ url_for('static', filename='img/uploads/' + libro.portada) }}" width="200" alt="{{ libro.titulo }}"></p>
+{% endif %}
+
+<p><a href="{{ url_for('public.mostrar_libros') }}">&larr; Volver al catálogo</a></p>
+{% endblock %}

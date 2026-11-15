@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Carrito{% endblock %}
+
+{% block content %}
+<h1>Mi Carrito de la Compra</h1>
+
+{% if libros %}
+    <ul>
+        {% for libro in libros %}
+            <li style="margin-bottom: 10px;">
+                <strong>{{ libro.titulo }}</strong> ({{ libro.autor }}) — {{ "%.2f"|format(libro.precio) }} €
+                <form action="{{ url_for('public.quitar_del_carrito', libro_id=libro.id) }}" method="post" style="display:inline; margin-left: 8px;">
+                    <button type="submit" class="btn btn-danger">Quitar</button>
+                </form>
+                <!-- TODO (Bloque 3 - Ejercicio 3.3A): Formulario POST para quitar este libro individual -->
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div style="background: #eef4f8; padding: 15px; border-radius: 6px; margin-top: 15px;">
+        <p>Subtotal: <strong>{{ "%.2f"|format(total_sin_descuento) }} €</strong></p>
+        {% if descuento_aplicado %}
+            <p style="color: green;">¡Descuento por compra superior a 60 € (10 %) aplicado!</p>
+        {% endif %}
+        <h3>Total a Pagar: {{ "%.2f"|format(total_final) }} €</h3>
+
+        <!-- TODO (Bloque 3 - Ejercicio 3.3B): Formulario POST apuntando a public.confirmar_compra -->
+        <form action="{{ url_for('public.confirmar_compra') }}" method="post">
+            <button type="submit" class="btn btn-success">Confirmar Compra y Descontar Stock</button>
+        </form>
+    </div>
+{% else %}
+    <p>Tu carrito está vacío.</p>
+{% endif %}
+
+<p style="margin-top: 20px;">
+    <a href="{{ url_for('public.mostrar_libros') }}">&larr; Seguir comprando</a>
+</p>
+{% endblock %}

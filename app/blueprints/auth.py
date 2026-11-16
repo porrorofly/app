@@ -35,7 +35,18 @@ def registro():
         return redirect(url_for("public.mostrar_libros"))
 
     form = RegistroForm()
-
+    if form.validate_on_submit():
+        usuario = Usuario(
+            username=form.username.data,
+            email=form.email.data,
+            edad=form.edad.data,
+            rol="cliente",
+        )
+        usuario.set_password(form.password.data)
+        db.session.add(usuario)
+        db.session.commit()
+        flash(f"Usuario creado con éxito.¡Bienvenido {usuario.username}!","exito")
+        return redirect(url_for("auth.login"))
     return render_template("registro.html", form=form)
 
 
@@ -44,13 +55,23 @@ def registro():
 def perfil():
     form = CambiarPasswordForm()
 
-    return render_template("perfil.html", form=form)
+    if form.validate_on_submit():
+        if not current_user.check_password(form.password_actual.data):
+            flash("La contraseña actual no es correcta.", "error")
+        elif current_user.check_password(form.password.data):
+            flash("La nueva contraseña no puede ser igual a la actual.", "error")
+        else:
+            current_user.set_password(form.password.data)
+            db.session.commit()
+            flash("Contraseña actualizada correctamente.", "exito")
+            return redirect(url_for("auth.perfil"))
 
+    return render_template("perfil.html", form=form)
 
 @auth_bp.route("/logout")
 @login_required
 def logout():
     logout_user()
-
+    session.pop("carrito", None)
     flash("Has cerrado sesión correctamente.", "info")
     return redirect(url_for("public.mostrar_libros"))

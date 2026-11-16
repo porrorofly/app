@@ -34,6 +34,7 @@ class LoginForm(FlaskForm):
         "Contraseña",
         validators=[DataRequired(message="Introduce tu contraseña.")],
     )
+    
     remember = BooleanField("Mantener sesión iniciada")
     submit = SubmitField("Entrar a la Librería")
 
@@ -96,6 +97,12 @@ class RegistroForm(FlaskForm):
             Email(message="Introduce un correo válido."),
         ],
     )
+    edad= IntegerField(
+        "Edad",
+        validators=[
+        InputRequired(message="La edad es obligatoria"),
+        NumberRange(min=14,message="Debe de ser mayor de 14 años.")]
+    )
 
     password = PasswordField(
         "Contraseña",
@@ -124,5 +131,24 @@ class RegistroForm(FlaskForm):
 
 class CambiarPasswordForm(FlaskForm):
     """Formulario para cambiar la contraseña desde el perfil."""
-
+    password_actual = PasswordField(
+        "Contraseña actual",
+        validators=[
+            DataRequired(message="La contraseña es obligatoria."),
+        ],
+    )
+    password = PasswordField(
+        "Contraseña",
+        validators=[
+            DataRequired(message="La contraseña es obligatoria."),
+            Length(min=6, message="Mínimo 6 caracteres."),
+        ],
+    )    
+    confirm_password = PasswordField(
+        "Confirmar Contraseña",
+        validators=[
+            DataRequired(message="Confirma tu contraseña."),
+            EqualTo("password", message="Las contraseñas no coinciden."),
+        ],
+    )
     submit = SubmitField("Actualizar Contraseña")

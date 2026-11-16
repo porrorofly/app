@@ -22,7 +22,13 @@
     </div>
 
     <!-- TODO (Bloque 4 - Ejercicio 4.1): Renderizar aquí el campo 'edad' y sus errores -->
-
+    <div style="margin-bottom: 10px;">
+        {{ form.edad.label }}<br>
+        {{ form.edad(size=32) }}<br>
+        {% for error in form.edad.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
     <div style="margin-bottom: 10px;">
         {{ form.password.label }}<br>
         {{ form.password(size=32) }}<br>

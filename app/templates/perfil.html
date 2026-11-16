@@ -16,6 +16,29 @@
 <!-- TODO (Bloque 4 - Ejercicio 4.2): Renderizar los campos de CambiarPasswordForm y sus errores -->
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
+    <div style="margin-bottom: 10px;">
+        {{ form.password_actual.label }}<br>
+        {{ form.password_actual(size=32) }}<br>
+        {% for error in form.password_actual.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+     <div style="margin-bottom: 10px;">
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}<br>
+        {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div style="margin-bottom: 15px;">
+        {{ form.confirm_password.label }}<br>
+        {{ form.confirm_password(size=32) }}<br>
+        {% for error in form.confirm_password.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+  
     {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock %}
